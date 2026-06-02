@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, ArrowLeft, Layers, Code2 } from "lucide-react";
+import { Menu, X, ArrowLeft, Code2 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 
 interface NavItem {
@@ -123,20 +123,6 @@ export default function Header() {
           </nav>
         )}
 
-        {/* Action Button */}
-        <div className="hidden sm:flex items-center">
-          <Link
-            to={isHome ? "/projects/mom" : "/"}
-            className={`flex items-center gap-2 rounded-lg px-4 py-2 font-sans text-xs font-bold transition-all shadow-sm border ${
-              isHome
-                ? "bg-indigo-600 text-white border-indigo-500 hover:bg-indigo-700 hover:shadow-indigo-100"
-                : "bg-white text-slate-700 border-slate-200 hover:bg-slate-50"
-            }`}
-          >
-            <span>{isHome ? "MoM 아키텍처 분석 보기" : "이력서 보러가기"}</span>
-          </Link>
-        </div>
-
         {/* Mobile menu button */}
         <button
           onClick={() => setIsOpen(!isOpen)}
@@ -179,17 +165,6 @@ export default function Header() {
                   <span>이력서 홈으로 가기</span>
                 </Link>
               )}
-              
-              <div className="pt-2 border-t border-slate-200 mt-2">
-                <Link
-                  to={isHome ? "/projects/mom" : "/"}
-                  onClick={() => setIsOpen(false)}
-                  className="flex w-full items-center justify-center gap-2 rounded-lg bg-indigo-600 py-2 font-sans text-xs font-bold text-white shadow-sm"
-                >
-                  <Layers className="h-4 w-4" />
-                  <span>{isHome ? "대표 MoM 케이스 스터디" : "포트폴리오 중심 홈"}</span>
-                </Link>
-              </div>
             </div>
           </motion.div>
         )}
