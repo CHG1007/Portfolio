@@ -41,7 +41,7 @@ export default function ProjectGrid() {
                 }`}>
                   {isFeatured ? (
                     <img 
-                      src="/mom-logo.png" 
+                      src="https://raw.githubusercontent.com/CHG1007/Portfolio/f2dec9f42082daeeb5e7f65150a9c3a3b59768dd/public/mom-logo.png" 
                       alt="MoM Logo" 
                       className="absolute inset-0 w-full h-full object-contain p-6 transition-transform duration-500 group-hover:scale-110 drop-shadow-sm" 
                     />
