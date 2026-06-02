@@ -69,7 +69,7 @@ export default function ContributionCards({ project }: ContributionCardsProps) {
           <ul className="space-y-3 font-sans text-xs text-slate-700 leading-relaxed font-normal text-left">
             {project.contributions[activeTab].details.map((detail, dIdx) => (
               <li key={dIdx} className="flex gap-2.5 items-start">
-                <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-indigo-50 font-mono text-[10px] font-bold text-indigo-600">
+                <span className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full font-mono text-[10px] font-bold ${project.slug === 'freeline' ? 'bg-[#DBFC53]/20 text-[#2F2C48]' : 'bg-indigo-50 text-indigo-600'}`}>
                   {dIdx + 1}
                 </span>
                 <span>{detail}</span>

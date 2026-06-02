@@ -58,7 +58,7 @@ export const PROJECTS_DATA: Project[] = [
     role: "Backend / API / AI Pipeline Integration",
     status: "featured",
     accentColor: "#0123B4",
-    thumbnail: "/assets/mom/demo/mom-web-demo-preview.png",
+    thumbnail: "https://raw.githubusercontent.com/CHG1007/Portfolio/main/public/mom-logo.png",
     tags: [
       "Spring Boot",
       "RabbitMQ",
@@ -221,18 +221,181 @@ export const PROJECTS_DATA: Project[] = [
     ]
   },
   {
-    slug: "ssafy-project-01",
-    title: "SSAFY Project 01",
-    subtitle: "SSAFY 특화 프로젝트 01",
-    summary: "프로젝트 정보 입력 예정 (Coming Soon)",
-    period: "2026.02 ~ 2026.04 예정",
-    teamSize: "TODO",
-    role: "Backend Developer",
-    status: "coming-soon",
-    accentColor: "#64748B",
-    thumbnail: "",
-    tags: ["Java", "Spring Boot", "MySQL", "Docker"],
-    links: {}
+    slug: "freeline",
+    title: "FreeLine, 줄서잇",
+    subtitle: "스마트 축제 대기열 관리 서비스",
+    summary: "축제·박람회 현장에서 방문자가 모바일로 부스 대기열에 등록하고, 부스 운영자가 호출·QR 도착 확인·입장 상태를 실시간으로 관리할 수 있도록 돕는 대기열 관리 플랫폼입니다.",
+    period: "2026.02 ~ 2026.04",
+    teamSize: "6명",
+    role: "Backend",
+    status: "featured",
+    accentColor: "#DBFC53",
+    thumbnail: "https://raw.githubusercontent.com/CHG1007/Portfolio/main/public/freeline-logo.png",
+    tags: [
+      "Java",
+      "Spring Boot",
+      "PostgreSQL",
+      "Redis",
+      "RabbitMQ",
+      "SSE",
+      "FCM",
+      "QR",
+      "React Native",
+      "Next.js"
+    ],
+    links: {
+      github: "TODO_GITHUB_URL",
+      demo: "TODO_DEMO_URL",
+      detail: "/projects/freeline"
+    },
+    overview: [
+      "FreeLine은 축제·박람회 현장의 부스 대기열을 모바일 중심으로 관리하기 위한 서비스입니다.",
+      "방문자는 모바일 앱에서 부스를 조회하고 대기열에 등록하며, 부스 운영자는 호출·도착 확인·입장 상태를 운영자 웹에서 처리합니다.",
+      "행사 운영자는 행사와 부스, 지도, 엔트리 코드, 리포트를 관리합니다."
+    ],
+    problem: [
+      "현장 방문자는 긴 물리 대기줄에 묶여 다른 부스를 자유롭게 이용하기 어렵습니다.",
+      "부스 운영자는 호출 대상과 도착 확인 사용자를 수기로 관리해야 합니다.",
+      "행사 운영자는 부스 위치와 혼잡도를 한 화면에서 파악하기 어렵습니다."
+    ],
+    myRole: [
+      "대기 등록, 호출, QR 도착 확인, 입장, 퇴장으로 이어지는 상태 전이 API를 구현했습니다.",
+      "QR 스캔 중복 요청을 Redis TTL lock으로 방어하고, 호출 유효 시간이 지난 대기를 만료 처리하도록 설계했습니다.",
+      "RabbitMQ 이벤트를 SSE와 FCM으로 분기해 운영자 화면 갱신과 방문자 푸시 알림을 연결했습니다.",
+      "행사 지도 위 부스 영역을 비율 좌표로 저장해 다양한 화면 크기에서도 위치가 유지되도록 구현했습니다."
+    ],
+    architecture: [
+      "방문자 앱, 부스 운영자 웹, 행사 운영자 웹이 Spring Boot API 서버와 통신합니다.",
+      "백엔드는 PostgreSQL에 대기열 원장을 저장하고, Redis를 인증·QR lock·SSE pub/sub에 사용합니다.",
+      "대기 상태 변경은 RabbitMQ 이벤트로 발행되어 부스 운영자 SSE 갱신과 방문자 FCM 알림으로 분기됩니다.",
+      "대기 상태 전이: WAITING → CALLED → REGISTERED → ENTERED → EXITED (취소: CANCELED, 만료: EXPIRED)"
+    ],
+    contributions: [
+      {
+        title: "Queue Domain Logic",
+        description: "대기 등록 및 상태 전이 흐름을 안전하게 검증하고 설계했습니다.",
+        details: [
+          "대기 등록 시 동일 부스 중복 여부, 방문자 활성 대기 개수(최대 3개), 부스별 최대 대기 제한을 서비스 레벨에서 검증",
+          "WAITING, CALLED, REGISTERED, ENTERED, EXITED 상태 전이 API 구현",
+          "서비스 메서드별로 허용 상태를 엄격히 제한하여 잘못된 순서의 입장/취소/퇴장을 원천 차단"
+        ],
+        techUsed: ["Spring Boot", "PostgreSQL", "Domain Model"]
+      },
+      {
+        title: "QR Scan Guard",
+        description: "QR 기반 도착 확인과 중복 요청 및 호출 만료를 방어했습니다.",
+        details: [
+          "QR 스캔 중복 요청을 Redis setIfAbsent 기반 TTL lock으로 방어",
+          "QR payload 검증(prefix, purpose, version, boothId, qrKey) 및 활성 QR과 CALLED 상태 대기 검증 로직 구현",
+          "호출 유효 기간(기본 180초)이 지난 대기를 만료(EXPIRED) 처리하는 흐름 적용"
+        ],
+        techUsed: ["Redis TTL Lock", "QR Payload"]
+      },
+      {
+        title: "Realtime Event Flow",
+        description: "RabbitMQ와 Redis, SSE/FCM을 결합한 실시간 알림 구조를 구축했습니다.",
+        details: [
+          "대기 상태 변경을 RabbitMQ 이벤트로 발행하고 SSE와 FCM으로 분기하는 구조 설계",
+          "SSE emitter가 단일 서버 메모리에 묶이는 한계를 Redis pub/sub로 보완해 운영자 화면 실시간 갱신(broadcast) 구현",
+          "호출, 퇴장, 만료 상황을 판별해 FCM 방문자 푸시 알림 및 RabbitMQ delay queue 기반 리마인더 연결"
+        ],
+        techUsed: ["RabbitMQ", "Redis pub/sub", "SSE", "FCM"]
+      },
+      {
+        title: "Booth Map Data",
+        description: "행사장 지도와 부스 위치를 비율 좌표 기반으로 저장하는 시스템을 구성했습니다.",
+        details: [
+          "행사 지도 위 부스 영역을 xRatio, yRatio, widthRatio, heightRatio 기반 비율 좌표로 엔티티 관리",
+          "다양한 화면 기기 환경에서도 지도 내 부스 위치가 일정하게 유지되도록 구현",
+          "방문자가 지도상에서 부스별 대기 인원과 혼잡도를 실시간으로 확인 가능하도록 응답 DTO 설계"
+        ],
+        techUsed: ["PostgreSQL", "Next.js Integration", "Geometry Mapping"]
+      }
+    ],
+    troubleshooting: [
+      {
+        lap: "Case 01. 대기 중복 등록과 최대 대기 제한",
+        problem: "방문자가 같은 부스에 여러 번 대기하거나 여러 부스에 과도하게 동시 대기하면 호출 대상과 순번이 꼬일 수 있다.",
+        solution: "활성 상태(WAITING, CALLED, REGISTERED, ENTERED)를 기준으로 동일 부스 중복 여부 및 방문자의 최대 대기 개수(3개), 부스별 최대 대기 수를 검증하고 차단하도록 서비스 로직에 방어선을 구축했다.",
+        result: "같은 방문자의 동일 부스 중복 대기와 최대 대기 개수 초과를 API 레벨에서 안전하게 차단한다.",
+        metricTodo: "TODO_METRIC - 순번 채번 관련 동시성 이슈 일부 보완 여지"
+      },
+      {
+        lap: "Case 02. QR 스캔 중복 요청 방어",
+        problem: "모바일 네트워크 재시도나 사용자의 중복 클릭으로 인해 동일한 QR 스캔 요청이 서버로 연속 유입되어 대기 상태 변경이 중복될 수 있다.",
+        solution: "QR 스캔 요청 시 Redis의 setIfAbsent를 활용해 boothId와 visitorId를 키로 갖는 TTL lock을 획득하도록 하고 작업 후 릴리즈하는 로직을 적용했다.",
+        result: "짧은 시간 내에 발생하는 동일 booth/visitor의 QR 중복 스캔 요청을 효율적으로 방어한다.",
+        metricTodo: "TODO_METRIC - 인프라 부하 절감 비율 확인"
+      },
+      {
+        lap: "Case 03. SSE 멀티 인스턴스 전달 누락 방지",
+        problem: "SSE emitter는 서버 인스턴스 메모리에 저장되므로, 대기 이벤트를 발생시킨 인스턴스와 SSE 연결이 성립된 인스턴스가 다르면 이벤트 브로드캐스트가 누락된다.",
+        solution: "대기 상태 변경을 RabbitMQ로 발행 후 백엔드가 소비하고, SSE consumer가 이를 Redis 채널에 publish하도록 했다. 이를 통해 모든 백엔드 인스턴스가 Redis pub/sub를 통해 메시지를 수신하여 자기 메모리에 있는 emitter들에게 브로드캐스트하도록 보완했다.",
+        result: "서버 확장으로 인해 발생하는 SSE 연결 단절 및 분실 문제를 Redis pub/sub로 완벽히 중계한다.",
+        metricTodo: "TODO_METRIC - 메시지 유실 0건 보장"
+      },
+      {
+        lap: "Case 04. 행사장 지도와 부스 위치 표시 최적화",
+        problem: "운영자가 등록한 행사장 지도 이미지는 방문자의 접속 기기 화면 크기나 비율에 따라 픽셀 좌표가 크게 왜곡될 수 있어, 부스 위치 지정 시 틀어짐이 발생한다.",
+        solution: "운영자가 지정한 부스 영역을 절대 픽셀 값이 아닌 원본 이미지 대비 비율(xRatio, yRatio, widthRatio, heightRatio)로 저장하고, 조회가 요청될 때 사용자 화면 기준 비율로 반환하도록 설계했다.",
+        result: "지도 이미지 디스플레이 크기가 가변적으로 바뀌어도 해당 부스 위치 마스킹 및 대기현황 데이터 표시가 동일한 위치를 보장한다.",
+        metricTodo: "TODO_METRIC"
+      }
+    ],
+    techStack: [
+      "Java 21",
+      "Spring Boot 3.x",
+      "Spring MVC",
+      "Spring Security",
+      "Spring Data JPA",
+      "PostgreSQL",
+      "Redis",
+      "RabbitMQ",
+      "Server-Sent Events (SSE)",
+      "Firebase Cloud Messaging (FCM)",
+      "Expo React Native",
+      "Next.js",
+      "Docker / Nginx",
+      "Jenkins / Prometheus / Grafana"
+    ],
+    gallery: [
+      {
+        id: "freeline-main",
+        fileName: "freeline-main.png",
+        title: "FreeLine 메인 대시보드",
+        description: "축제 현장의 대기 상태와 호출을 모니터링할 수 있는 메인 대시보드"
+      },
+      {
+        id: "freeline-map",
+        fileName: "event-map.png",
+        title: "행사장 지도와 혼잡도",
+        description: "비율 기반으로 저장된 부스 위치와 대기 인원이 함께 표출되는 지도 화면"
+      },
+      {
+        id: "freeline-qr",
+        fileName: "qr-checkin.png",
+        title: "QR 도착 확인 체계",
+        description: "호출된 대기자가 도착했을 때 스캔하여 REGISTERED 상태로 인증받는 흐름"
+      },
+      {
+        id: "freeline-manager",
+        fileName: "booth-manager-queue.png",
+        title: "운영자 대기열 통제 관리자",
+        description: "SSE로 실시간 동기화되는 대기열 현황과 호출/취소 처리 대시보드"
+      },
+      {
+        id: "freeline-architecture",
+        fileName: "system-architecture.png",
+        title: "시스템 아키텍처",
+        description: "Spring Boot, Redis, RabbitMQ, PostgreSQL로 구성된 백엔드 서비스 아키텍처"
+      },
+      {
+        id: "freeline-flow",
+        fileName: "waiting-state-flow.png",
+        title: "대기 상태 전이 (Waiting Logic)",
+        description: "WAITING부터 EXITED까지 사용자 및 운영자의 행동에 따라 엄격하게 검증된 상태 변경 흐름"
+      }
+    ]
   },
   {
     slug: "backend-lab",

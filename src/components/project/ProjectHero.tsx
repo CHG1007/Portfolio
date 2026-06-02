@@ -34,16 +34,16 @@ export default function ProjectHero({ project }: ProjectHeroProps) {
             <span>이력서 포트폴리오로 복귀</span>
           </Link>
 
-          {project.links.demo && (
+          {project.links.demo && !project.links.demo.includes("TODO") && (
             <div className="flex items-center gap-2">
               <a
                 href={project.links.demo}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-2 rounded-lg px-4 py-2 text-xs font-bold text-white shadow-xs hover:opacity-90 transition-all"
+                className={`inline-flex items-center gap-2 rounded-lg px-4 py-2 text-xs font-bold shadow-xs hover:opacity-90 transition-all ${project.slug === 'freeline' ? 'text-[#2F2C48]' : 'text-white'}`}
                 style={{ backgroundColor: accentColor }}
               >
-                <span>MoM Live Demo Launch</span>
+                <span>{project.title.split(',')[0]} Live Demo Launch</span>
                 <ArrowUpRight className="h-4 w-4" />
               </a>
             </div>
@@ -54,11 +54,11 @@ export default function ProjectHero({ project }: ProjectHeroProps) {
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 items-center">
           <div className="lg:col-span-8 space-y-4">
             <span
-              className="inline-flex items-center gap-1 rounded-full px-2.5 py-1 font-mono text-[9px] font-bold text-white uppercase tracking-wider"
+              className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 font-mono text-[9px] font-bold uppercase tracking-wider ${project.slug === 'freeline' ? 'text-[#2F2C48]' : 'text-white'}`}
               style={{ backgroundColor: accentColor }}
             >
               <Cpu className="h-3 w-3" />
-              SSAFY 14기 대표 우수작
+              {project.slug === 'freeline' ? 'SSAFY 특화 프로젝트' : 'SSAFY 14기 대표 우수작'}
             </span>
 
             <h1 className="font-display text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl lg:text-5xl leading-tight">
@@ -89,7 +89,7 @@ export default function ProjectHero({ project }: ProjectHeroProps) {
               </div>
               <div className="flex justify-between items-center py-0.5">
                 <span className="text-slate-400 font-semibold uppercase font-mono text-[10px]">My Role</span>
-                <span className="text-indigo-600 font-bold">{project.role}</span>
+                <span className={`font-bold ${project.slug === 'freeline' ? 'text-[#2F2C48]' : 'text-indigo-600'}`}>{project.role}</span>
               </div>
               <div className="flex justify-between items-center py-0.5">
                 <span className="text-slate-400 font-semibold uppercase font-mono text-[10px]">Accent Token</span>

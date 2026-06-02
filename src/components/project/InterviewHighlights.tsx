@@ -8,6 +8,10 @@ interface InterviewHighlightsProps {
 export default function InterviewHighlights({ project }: InterviewHighlightsProps) {
   const accentColor = project.accentColor || "#0123B4";
 
+  if (project.slug !== 'mom') {
+    return null;
+  }
+
   const qaHighlights = [
     {
       q: "HTTP 요청과 AI 작업 분리를 구성해야 했던 연유는 무엇인가요?",

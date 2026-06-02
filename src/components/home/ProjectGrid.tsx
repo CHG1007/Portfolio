@@ -21,14 +21,16 @@ export default function ProjectGrid() {
         {/* Project Cards Grid */}
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
           {PROJECTS_DATA.map((project) => {
-            const isFeatured = project.slug === "mom";
+            const isFeatured = project.status === "featured";
+            const isMom = project.slug === "mom";
+            const isFreeline = project.slug === "freeline";
             
             return (
               <div
                 key={project.slug}
                 className={`group flex flex-col h-full rounded-2xl border text-left overflow-hidden transition-all duration-300 ${
                   isFeatured
-                    ? "border-indigo-200 bg-white shadow-xs hover:border-indigo-400 hover:shadow-xl hover:-translate-y-1"
+                    ? (isFreeline ? "border-[#DBFC53]/30 bg-white shadow-xs hover:border-[#DBFC53]/70 hover:shadow-xl hover:-translate-y-1" : "border-indigo-200 bg-white shadow-xs hover:border-indigo-400 hover:shadow-xl hover:-translate-y-1")
                     : "border-slate-150 bg-slate-50/40 opacity-75"
                 }`}
               >
@@ -36,13 +38,13 @@ export default function ProjectGrid() {
                 {/* Simulated/Real Thumbnail Cover */}
                 <div className={`relative h-44 flex flex-col justify-center items-center overflow-hidden border-b ${
                   isFeatured 
-                    ? "bg-gradient-to-br from-indigo-50 to-indigo-100" 
+                    ? (isFreeline ? "bg-[#F0F2F5] text-slate-900" : "bg-gradient-to-br from-indigo-50 to-indigo-100")
                     : "bg-slate-200/50 text-slate-400"
                 }`}>
                   {isFeatured ? (
                     <img 
-                      src="https://raw.githubusercontent.com/CHG1007/Portfolio/f2dec9f42082daeeb5e7f65150a9c3a3b59768dd/public/mom-logo.png" 
-                      alt="MoM Logo" 
+                      src={project.thumbnail} 
+                      alt={`${project.title} Logo`}
                       className="absolute inset-0 w-full h-full object-contain p-6 transition-transform duration-500 group-hover:scale-110 drop-shadow-sm" 
                     />
                   ) : (
@@ -67,7 +69,7 @@ export default function ProjectGrid() {
                 {/* Info Payload */}
                 <div className="p-5 flex-1 flex flex-col justify-between space-y-5">
                   <div className="space-y-2.5">
-                    <span className="font-mono text-[9.5px] font-bold text-indigo-650 uppercase tracking-widest block">
+                    <span className={`font-mono text-[9.5px] font-bold uppercase tracking-widest block ${isFreeline ? 'text-[#2F2C48]' : 'text-indigo-650'}`}>
                       {project.period}
                     </span>
                     
@@ -102,12 +104,16 @@ export default function ProjectGrid() {
                       {isFeatured ? (
                         <>
                           <Link
-                            to="/projects/mom"
-                            className="flex-1 text-center py-2.5 rounded-lg bg-indigo-600 font-sans text-xs font-bold text-white shadow-sm hover:bg-indigo-700 hover:shadow-indigo-50 transition-all uppercase tracking-wide"
+                            to={`/projects/${project.slug}`}
+                            className={`flex-1 text-center py-2.5 rounded-lg font-sans text-xs font-bold shadow-sm transition-all uppercase tracking-wide ${
+                              isFreeline 
+                                ? "bg-[#DBFC53] text-[#2F2C48] hover:bg-[#c9f136] hover:shadow-md"
+                                : "bg-indigo-600 text-white hover:bg-indigo-700 hover:shadow-indigo-50"
+                            }`}
                           >
                             Case Study
                           </Link>
-                          {project.links.demo && (
+                          {project.links?.demo && !project.links.demo.includes("TODO") && (
                             <a
                               href={project.links.demo}
                               target="_blank"
@@ -117,6 +123,15 @@ export default function ProjectGrid() {
                             >
                               <ArrowUpRight className="h-4.5 w-4.5" />
                             </a>
+                          )}
+                          {project.links?.demo && project.links.demo.includes("TODO") && (
+                            <button
+                              disabled
+                              className="px-3 py-2.5 rounded-lg border border-slate-200 text-slate-300 font-mono text-[9px] cursor-not-allowed"
+                              title="Demo Coming Soon"
+                            >
+                              DEV
+                            </button>
                           )}
                         </>
                       ) : (

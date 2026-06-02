@@ -19,6 +19,8 @@ export default function ProjectDetailPage() {
     return <Navigate to="/not-found" replace />;
   }
 
+  const isFreeline = project.slug === "freeline";
+  
   // If project status is coming-soon / study placeholder
   if (project.status === "coming-soon") {
     return (
@@ -57,16 +59,16 @@ export default function ProjectDetailPage() {
 
       {/* 3. My Role summary (if direct array parameter exists, else rendered from profiles) */}
       {project.myRole && project.myRole.length > 0 && (
-        <section className="relative py-12 bg-slate-50 border-b border-slate-100 text-left">
+        <section className={`relative py-12 border-b text-left ${isFreeline ? 'bg-[#F8FAF0] border-[#DBFC53]/30' : 'bg-slate-50 border-slate-100'}`}>
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center gap-2 mb-6 text-slate-900">
-              <Sparkles className="h-5 w-5 text-indigo-600" />
+            <div className={`flex items-center gap-2 mb-6 ${isFreeline ? 'text-[#2F2C48]' : 'text-slate-900'}`}>
+              <Sparkles className={`h-5 w-5 ${isFreeline ? 'text-[#aacc00]' : 'text-indigo-600'}`} />
               <h3 className="font-display text-lg font-bold">My Personal Role Scope (역할 명세)</h3>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {project.myRole.map((roleText, rIdx) => (
-                <div key={rIdx} className="rounded-xl border border-slate-200 bg-white p-4 text-xs font-sans text-slate-650 leading-relaxed font-normal flex gap-2.5 items-start">
-                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-slate-100 text-slate-500 font-bold font-mono">
+                <div key={rIdx} className={`rounded-xl border bg-white p-4 text-xs font-sans text-slate-650 leading-relaxed font-normal flex gap-2.5 items-start ${isFreeline ? 'border-[#DBFC53]/40' : 'border-slate-200'}`}>
+                  <span className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full font-bold font-mono ${isFreeline ? 'bg-[#DBFC53] text-[#2F2C48]' : 'bg-slate-100 text-slate-500'}`}>
                     {rIdx + 1}
                   </span>
                   <span>{roleText}</span>
@@ -94,8 +96,8 @@ export default function ProjectDetailPage() {
               <span className="font-mono text-xs font-bold text-slate-400 uppercase tracking-widest block">
                 FULL INTEGRATED SYSTEM STACK
               </span>
-              <h3 className="font-display text-xl font-extrabold text-slate-900">
-                MoM 통합 백엔드 기술 스펙 아키텍처
+              <h3 className={`font-display text-xl font-extrabold ${isFreeline ? 'text-[#2F2C48]' : 'text-slate-900'}`}>
+                {project.title.split(',')[0]} 통합 백엔드 기술 스펙 아키텍처
               </h3>
             </div>
 
@@ -103,7 +105,11 @@ export default function ProjectDetailPage() {
               {project.techStack.map((tech) => (
                 <span
                   key={tech}
-                  className="rounded-xl bg-slate-100 border px-3.5 py-1.5 font-mono text-xs font-semibold text-slate-700"
+                  className={`rounded-xl border px-3.5 py-1.5 font-mono text-xs font-semibold ${
+                    isFreeline 
+                      ? 'bg-[#F8FAF0] border-[#DBFC53]/50 text-[#2F2C48]' 
+                      : 'bg-slate-100 border-slate-200 text-slate-700'
+                  }`}
                 >
                   {tech}
                 </span>
@@ -117,18 +123,22 @@ export default function ProjectDetailPage() {
       <InterviewHighlights project={project} />
 
       {/* 9. Bottom Return Call-to-Action */}
-      <div className="py-20 bg-slate-50 text-center border-b border-slate-100">
-        <div className="max-w-md mx-auto space-y-4">
-          <h4 className="font-display text-lg font-bold text-slate-800">
+      <div className={`py-20 text-center border-b ${isFreeline ? 'bg-[#2F2C48] text-white border-[#2F2C48]' : 'bg-slate-50 text-slate-800 border-slate-100'}`}>
+        <div className="max-w-md mx-auto space-y-4 px-4">
+          <h4 className="font-display text-lg font-bold">
             상세 아키텍처 분석보고서 검토를 완료하셨나요?
           </h4>
-          <p className="font-sans text-xs text-slate-500 leading-relaxed">
+          <p className={`font-sans text-xs leading-relaxed ${isFreeline ? 'text-slate-300' : 'text-slate-500'}`}>
             최홍권의 전체 이력서 항목, 실무 근무 수치 스펙, 정량화 스택 등 더 넓은 범위의 역량 확인을 위해 포트폴리오 메인 화면으로 언제든 자유롭게 복귀하실 수 있습니다.
           </p>
           <div className="pt-2">
             <Link
               to="/"
-              className="inline-flex items-center gap-2 rounded-xl bg-indigo-600 px-6 py-3 font-sans text-xs font-bold text-white shadow-md hover:bg-indigo-700 transition-all"
+              className={`inline-flex items-center gap-2 rounded-xl px-6 py-3 font-sans text-xs font-bold shadow-md transition-all ${
+                isFreeline 
+                  ? 'bg-[#DBFC53] text-[#2F2C48] hover:bg-[#c9f136]' 
+                  : 'bg-indigo-600 text-white hover:bg-indigo-700'
+              }`}
             >
               <ArrowLeft className="h-4 w-4" />
               <span>포트폴리오 중심 홈으로 돌아가기</span>
