@@ -1,0 +1,6 @@
+{
+  "name": "ChoiHongGwon Portfolio",
+  "description": "Backend Developer Choi Hong-gwon's portfolio featuring Spring Boot, RabbitMQ, Redis, and AI pipeline integration.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
