@@ -3,7 +3,7 @@
 > **"장시간 소요되는 복잡한 AI 작업을 확장 가능하고 안정적인 백엔드 서비스 흐름으로 설계·완결합니다."**
 
 본 프로젝트는 백엔드 개발자 최홍권의 개인 기술 포트폴리오 웹사이트입니다.  
-SSAFY 기업연계 프로젝트 **MoM (Model of Me)** 및 특화 프로젝트 **FreeLine (줄서잇)**을 대표 시그니처 프로젝트로 기재되어 있으며, 시니어 프론트엔드/백엔드 조율 및 UX/UI 디자이너로서의 감성을 담아 세련되고 깔끔한 **"Clean Light / Slate Minimalist"** 형태로 제작되었습니다.
+SSAFY 특화 프로젝트 **FreeLine (줄서잇)**, 기업연계 프로젝트 **MoM (Model of Me)**, 공통 프로젝트 **Sniffy The Dog**를 대표 시그니처 프로젝트로 기재되어 있으며, 시니어 프론트엔드/백엔드 조율 및 UX/UI 디자이너로서의 감성을 담아 세련되고 깔끔한 **"Clean Light / Slate Minimalist"** 형태로 제작되었습니다.
 
 ---
 
@@ -12,6 +12,7 @@ SSAFY 기업연계 프로젝트 **MoM (Model of Me)** 및 특화 프로젝트 **
 - **포인트 컬럼:**
   - MoM 프로젝트는 차분하고 전문적인 인디고 블루(#0123B4) 칼라를 기반으로 합니다.
   - FreeLine 프로젝트는 액센트 라임(#DBFC53) 및 다크 슬레이트(#2F2C48)를 포인트로 사용하여 활동적이고 세련된 테마를 부여했습니다.
+  - Sniffy The Dog 프로젝트는 메인 게임 감성을 담아 다크 사이버(#272727) 백그라운드 블록에 에너제틱 오렌지(#FE7122) 테마를 스며들게 채택했습니다.
 - **타이포그래피 페어링:** Space Grotesk(제목용 전시 폰트)와 Inter(본문의 한국어 가독성 폰트)를 조화시켰으며 상태 코드 및 정보 블록에는 JetBrains Mono를 사용하여 신뢰감을 보장합니다.
 - **반응형 보증:** 360px 모바일 레이아웃부터 1440px+ 데스크톱 고해상도 환경까지 안정적으로 부드럽게 변환됩니다.
 
@@ -22,11 +23,11 @@ SSAFY 기업연계 프로젝트 **MoM (Model of Me)** 및 특화 프로젝트 **
 
 - `src/App.tsx`: `BrowserRouter`, `Routes`, `<ScrollToTop />` 및 공통 Header/Footer 레이아웃 결합
 - `src/routes/HomePage.tsx`: 메인 포트폴리오 첫 화면 (소개, 경험 타임라인, 실무 스펙 보드, 대표 프로젝트 그리드, 연락처 보관함)
-- `src/routes/ProjectDetailPage.tsx`: 파라미터 `:slug`를 분석해 최적의 프로젝트 세부 분석 및 가상 CAD Blueprint 회로 정보를 제공하는 세부 화면 (/projects/mom, /projects/freeline 동적 라우팅 지원)
+- `src/routes/ProjectDetailPage.tsx`: 파라미터 `:slug`를 분석해 최적의 프로젝트 세부 분석 및 가상 CAD Blueprint 회로 정보를 제공하는 세부 화면 (/projects/mom, /projects/freeline, /projects/sniffy-the-dog 동적 라우팅 지원)
 - `src/utils/scrollToTop.ts`: SPA 화면 전환 시 최상단 영역으로 사용자 뷰를 강제 리플래시하는 유틸리티
 - `/vercel.json`: 프로젝트 URL 직접 갱신 시(refresh) 라우터가 유실되지 않도록 예지 우회하는 Vercel SPA Fallback 명세
 - `/src/data/profile.ts`: 최홍권의 한 줄 자기소개, 군 장교 연장 이력, 만두파트너스 근무 기술서 및 스택 숙련도 데이터
-- `/src/data/projects.ts`: MoM 및 FreeLine 프로젝트의 상세 개요, 가용 아키텍처 흐름도 단계, 내가 기여한 부분, 다수의 트러블슈팅 명세 장착
+- `/src/data/projects.ts`: 모든 프로젝트(MoM, FreeLine, Sniffy)의 상세 개요, 가용 아키텍처 흐름도 단계, 내가 기여한 부분, 다수의 트러블슈팅 명세 장착
 
 ---
 

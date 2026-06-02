@@ -134,14 +134,15 @@ export const PROFILE_DATA = {
     {
       categoryName: "Backend Control",
       skills: [
-        { name: "Java 17", level: "Expert" },
-        { name: "Spring Boot", level: "Expert" },
+        { name: "Java 17/21", level: "Expert" },
+        { name: "Spring Boot 3.x", level: "Expert" },
         { name: "Spring Web & Security", level: "Core" },
         { name: "Spring Data JPA", level: "Core" },
         { name: "Spring Validation", level: "Core" },
         { name: "Spring Mail", level: "Experienced" },
         { name: "Spring AMQP (RabbitMQ)", level: "Core" },
-        { name: "JWT", level: "Core" },
+        { name: "Server-Sent Events (SSE)", level: "Core" },
+        { name: "JWT / Session Tracking", level: "Core" },
         { name: "REST API Design", level: "Expert" }
       ]
     },
@@ -176,7 +177,9 @@ export const PROFILE_DATA = {
       categoryName: "Frontend Collaboration",
       skills: [
         { name: "Flutter Architecture Concept", level: "Experienced" },
-        { name: "Dio (HTTP Clients)", level: "Experienced" },
+        { name: "React Native (Expo)", level: "Experienced" },
+        { name: "Next.js", level: "Experienced" },
+        { name: "Dio / Axios", level: "Experienced" },
         { name: "Firebase Cloud Messaging (FCM)", level: "Core" },
         { name: "Event-Driven Notifications", level: "Core" }
       ]
@@ -186,6 +189,7 @@ export const PROFILE_DATA = {
       skills: [
         { name: "Docker & Docker Compose", level: "Core" },
         { name: "Nginx", level: "Core" },
+        { name: "Jenkins / Grafana", level: "Experienced" },
         { name: "Git & GitLab CI", level: "Core" },
         { name: "Vercel Static Hosting", level: "Experienced" }
       ]

@@ -3,6 +3,19 @@ import { Briefcase, GraduationCap, ShieldAlert } from "lucide-react";
 export default function ExperienceTimeline() {
   const timelineItems = [
     {
+      id: "univ",
+      period: "2016.02 ~ 2020.02",
+      title: "IT응용시스템공학 전공",
+      sub: "경영학부 부전공 / 공과대학 학사 졸업",
+      icon: GraduationCap,
+      color: "slate",
+      bullets: [
+        "전공 평점: 3.81 / 4.50 (총 141학점 이수)",
+        "IT 정보 시스템 설계론 및 알고리즘, 시스템 아키텍처 과목 수량 이수",
+        "비즈니스 프로세스 개선 관점을 적용한 프로젝트 문제 해결력 함양"
+      ]
+    },
+    {
       id: "mil-off",
       period: "2020.03 ~ 2022.06",
       title: "대한민국 육군 통신 장교",
@@ -37,7 +50,7 @@ export default function ExperienceTimeline() {
       color: "indigo",
       bullets: [
         "백엔드(Java, Spring Boot) 및 RESTful API 전문 설계",
-        "비동기 분산 처리 파이프라인(MoM 프로젝트) 리드",
+        "생성형 AI 모델 활용, 머신러닝 기초 및 AI 파이프라인 연계 교육 수강",
         "데이터베이스 관리 및 영속 계층 제어 적용"
       ]
     }
@@ -53,7 +66,7 @@ export default function ExperienceTimeline() {
             CAREER TIMELINE
           </span>
           <h2 className="font-display text-3xl font-extrabold text-slate-900 tracking-tight">
-            경험 궤적
+            이력
           </h2>
           <div className="mx-auto h-1 w-12 bg-indigo-600 rounded" />
         </div>

@@ -40,7 +40,7 @@ export default function ProjectHero({ project }: ProjectHeroProps) {
                 href={project.links.demo}
                 target="_blank"
                 rel="noreferrer"
-                className={`inline-flex items-center gap-2 rounded-lg px-4 py-2 text-xs font-bold shadow-xs hover:opacity-90 transition-all ${project.slug === 'freeline' ? 'text-[#2F2C48]' : 'text-white'}`}
+                className={`inline-flex items-center gap-2 rounded-lg px-4 py-2 text-xs font-bold shadow-xs hover:opacity-90 transition-all ${project.slug === 'freeline' ? 'text-[#2F2C48]' : project.slug === 'sniffy-the-dog' ? 'text-[#272727]' : 'text-white'}`}
                 style={{ backgroundColor: accentColor }}
               >
                 <span>{project.title.split(',')[0]} Live Demo Launch</span>
@@ -54,11 +54,11 @@ export default function ProjectHero({ project }: ProjectHeroProps) {
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 items-center">
           <div className="lg:col-span-8 space-y-4">
             <span
-              className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 font-mono text-[9px] font-bold uppercase tracking-wider ${project.slug === 'freeline' ? 'text-[#2F2C48]' : 'text-white'}`}
+              className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 font-mono text-[9px] font-bold uppercase tracking-wider ${project.slug === 'freeline' ? 'text-[#2F2C48]' : project.slug === 'sniffy-the-dog' ? 'text-[#272727]' : 'text-white'}`}
               style={{ backgroundColor: accentColor }}
             >
               <Cpu className="h-3 w-3" />
-              {project.slug === 'freeline' ? 'SSAFY 특화 프로젝트' : 'SSAFY 14기 대표 우수작'}
+              {project.slug === 'freeline' ? 'SSAFY 특화 프로젝트' : project.slug === 'sniffy-the-dog' ? 'SSAFY 공통 프로젝트 | WebRTC Project' : 'SSAFY 14기 대표 우수작'}
             </span>
 
             <h1 className="font-display text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl lg:text-5xl leading-tight">

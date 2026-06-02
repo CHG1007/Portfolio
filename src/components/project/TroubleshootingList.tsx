@@ -13,17 +13,18 @@ export default function TroubleshootingList({ project }: TroubleshootingListProp
   if (!project.troubleshooting || project.troubleshooting.length === 0) return null;
 
   const isFreeline = project.slug === 'freeline';
+  const isSniffy = project.slug === 'sniffy-the-dog';
 
   return (
-    <section className={`relative py-16 border-b text-left ${isFreeline ? 'bg-[#F8FAF0] border-[#DBFC53]/30' : 'bg-slate-50 border-slate-100'}`}>
+    <section className={`relative py-16 border-b text-left ${isFreeline ? 'bg-[#F8FAF0] border-[#DBFC53]/30' : isSniffy ? 'bg-[#FFF4EC] border-[#FE7122]/30' : 'bg-slate-50 border-slate-100'}`}>
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
         
         {/* Header */}
         <div className="flex items-center gap-2 mb-10">
-          <span className={`p-1.5 rounded-lg ${isFreeline ? 'bg-[#DBFC53]/20 text-[#2F2C48]' : 'bg-indigo-50 text-indigo-600'}`}>
+          <span className={`p-1.5 rounded-lg ${isFreeline ? 'bg-[#DBFC53]/20 text-[#2F2C48]' : isSniffy ? 'bg-[#FE7122]/20 text-[#FE7122]' : 'bg-indigo-50 text-indigo-600'}`}>
             <Wrench className="h-5 w-5" />
           </span>
-          <h2 className={`font-display text-xl font-extrabold tracking-tight ${isFreeline ? 'text-[#2F2C48]' : 'text-slate-900'}`}>
+          <h2 className={`font-display text-xl font-extrabold tracking-tight ${isFreeline ? 'text-[#2F2C48]' : isSniffy ? 'text-[#272727]' : 'text-slate-900'}`}>
             트러블슈팅 및 예외 시나리오 방어 책장
           </h2>
         </div>
@@ -35,7 +36,7 @@ export default function TroubleshootingList({ project }: TroubleshootingListProp
             return (
               <div
                 key={idx}
-                className={`rounded-2xl border bg-white shadow-3xs overflow-hidden transition-all duration-300 ${isFreeline ? 'border-[#DBFC53]/40' : 'border-slate-200'}`}
+                className={`rounded-2xl border bg-white shadow-3xs overflow-hidden transition-all duration-300 ${isFreeline ? 'border-[#DBFC53]/40' : isSniffy ? 'border-[#FE7122]/40' : 'border-slate-200'}`}
               >
                 {/* Accordion Header */}
                 <button
@@ -43,7 +44,7 @@ export default function TroubleshootingList({ project }: TroubleshootingListProp
                   className="w-full flex items-center justify-between p-5 text-left font-display text-sm sm:text-base font-bold text-slate-900 hover:bg-slate-50 transition-colors"
                 >
                   <div className="flex gap-3 items-center pr-4">
-                    <span className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full font-mono text-xs font-bold ${isFreeline ? 'bg-[#DBFC53]/20 text-[#2F2C48]' : 'bg-indigo-50 text-indigo-600'}`}>
+                    <span className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full font-mono text-xs font-bold ${isFreeline ? 'bg-[#DBFC53]/20 text-[#2F2C48]' : isSniffy ? 'bg-[#FE7122]/20 text-[#FE7122]' : 'bg-indigo-50 text-indigo-600'}`}>
                       {idx + 1}
                     </span>
                     <span>{trouble.lap.split(". ").slice(1).join(". ")}</span>
@@ -53,7 +54,7 @@ export default function TroubleshootingList({ project }: TroubleshootingListProp
 
                 {/* Accordion Content Panel (with nice smooth spacing animations) */}
                 {isOpen && (
-                  <div className={`border-t p-5 sm:p-6 space-y-4 text-xs font-sans ${isFreeline ? 'border-[#DBFC53]/20 bg-[#F8FAF0]/50' : 'border-slate-100 bg-slate-50/30'}`}>
+                  <div className={`border-t p-5 sm:p-6 space-y-4 text-xs font-sans ${isFreeline ? 'border-[#DBFC53]/20 bg-[#F8FAF0]/50' : isSniffy ? 'border-[#FE7122]/20 bg-[#FFF4EC]/50' : 'border-slate-100 bg-slate-50/30'}`}>
                     
                     {/* Problem definitions */}
                     <div className="flex gap-2.5 items-start text-left text-slate-705 pl-4 border-l-2 border-red-200 relative">

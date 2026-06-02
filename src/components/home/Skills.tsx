@@ -12,7 +12,7 @@ export default function Skills() {
             TECHNICAL CAPABILITIES
           </span>
           <h2 className="font-display text-3xl font-extrabold text-slate-900 tracking-tight">
-            기술 스택 지표
+            기술 스택
           </h2>
           <div className="mx-auto h-1 w-12 bg-indigo-600 rounded" />
         </div>

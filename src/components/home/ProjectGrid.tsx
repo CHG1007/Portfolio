@@ -13,7 +13,7 @@ export default function ProjectGrid() {
             SELECTED LAB WORK
           </span>
           <h2 className="font-display text-3xl font-extrabold text-slate-900 tracking-tight">
-            기술 검증을 마친 대표 프로젝트
+            프로젝트
           </h2>
           <div className="mx-auto h-1 w-12 bg-indigo-600 rounded" />
         </div>
@@ -24,13 +24,14 @@ export default function ProjectGrid() {
             const isFeatured = project.status === "featured";
             const isMom = project.slug === "mom";
             const isFreeline = project.slug === "freeline";
+            const isSniffy = project.slug === "sniffy-the-dog";
             
             return (
               <div
                 key={project.slug}
                 className={`group flex flex-col h-full rounded-2xl border text-left overflow-hidden transition-all duration-300 ${
                   isFeatured
-                    ? (isFreeline ? "border-[#DBFC53]/30 bg-white shadow-xs hover:border-[#DBFC53]/70 hover:shadow-xl hover:-translate-y-1" : "border-indigo-200 bg-white shadow-xs hover:border-indigo-400 hover:shadow-xl hover:-translate-y-1")
+                    ? (isFreeline ? "border-[#DBFC53]/30 bg-white shadow-xs hover:border-[#DBFC53]/70 hover:shadow-xl hover:-translate-y-1" : isSniffy ? "border-[#FE7122]/30 bg-white shadow-xs hover:border-[#FE7122]/70 hover:shadow-xl hover:-translate-y-1" : "border-indigo-200 bg-white shadow-xs hover:border-indigo-400 hover:shadow-xl hover:-translate-y-1")
                     : "border-slate-150 bg-slate-50/40 opacity-75"
                 }`}
               >
@@ -38,7 +39,7 @@ export default function ProjectGrid() {
                 {/* Simulated/Real Thumbnail Cover */}
                 <div className={`relative h-44 flex flex-col justify-center items-center overflow-hidden border-b ${
                   isFeatured 
-                    ? (isFreeline ? "bg-[#F0F2F5] text-slate-900" : "bg-gradient-to-br from-indigo-50 to-indigo-100")
+                    ? (isFreeline ? "bg-[#F0F2F5] text-slate-900" : isSniffy ? "bg-[#272727] text-white" : "bg-gradient-to-br from-indigo-50 to-indigo-100")
                     : "bg-slate-200/50 text-slate-400"
                 }`}>
                   {isFeatured ? (
@@ -108,6 +109,8 @@ export default function ProjectGrid() {
                             className={`flex-1 text-center py-2.5 rounded-lg font-sans text-xs font-bold shadow-sm transition-all uppercase tracking-wide ${
                               isFreeline 
                                 ? "bg-[#DBFC53] text-[#2F2C48] hover:bg-[#c9f136] hover:shadow-md"
+                                : isSniffy
+                                ? "bg-[#FE7122] text-[#272727] hover:bg-[#e05f15] hover:shadow-md"
                                 : "bg-indigo-600 text-white hover:bg-indigo-700 hover:shadow-indigo-50"
                             }`}
                           >

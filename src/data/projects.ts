@@ -45,6 +45,7 @@ export interface Project {
   troubleshooting?: Troubleshooting[];
   techStack?: string[];
   gallery?: GalleryItem[];
+  interviewHighlights?: { q: string; a: string }[];
 }
 
 export const PROJECTS_DATA: Project[] = [
@@ -217,6 +218,32 @@ export const PROJECTS_DATA: Project[] = [
         fileName: "mom-render-sequence.png",
         title: "비동기 아바타 생성 시퀀스 명세",
         description: "클라이언트 업로드 개시부터 RabbitMQ 이벤트 브로커 점적 발행, Python AI Worker 분석 완료 수신 후 FCM 푸시 전이까지의 완결성 시퀀스 라이프사이클입니다."
+      }
+    ],
+    interviewHighlights: [
+      {
+        q: "HTTP 요청과 AI 작업 분리를 구성해야 했던 연유는 무엇인가요?",
+        a: "3D Gaussian Splatting 비디오 렌더링 및 메쉬 보정 연산은 물리적 GPU 기기가 개입해 최소 3~5분이 걸립니다. 이를 HTTP 서블릿 동기 라이프사이클 내에서 처리할 시 웹 소켓 타임아웃, 스레드 풀 고사로 와스 불능이 오기 때문에, 요청 즉시 Task ID를 반환받아 세션을 석방하고 RabbitMQ 로 비동기화 분사 처리를 완결했습니다."
+      },
+      {
+        q: "RabbitMQ의 Redelivery 현상과 중복 처리 예지는 어떻게 수립했나요?",
+        a: "GPU 연산 지연 시 RabbitMQ가 ACK 신호를 수신하지 못해 메시지를 Unacknowledged에서 타 워커에 재배포해버리는 중복 렌더링 문제가 동반됐습니다. 이를 해결하기 위해 요청 페이로드 기저의 Request Hash를 DB 고유 락으로 인덱싱하고, Consumer가 작업을 인수하는 즉시 terminal state를 DB에 교차 마킹해 중복 연집 가동을 단절시켰습니다."
+      },
+      {
+        q: "JWT Access/Refresh 토큰 롤링 및 Redis 위임 검증의 구조적 가치는 무엇인가요?",
+        a: "Access Token의 짧은 수명(수십 분)을 유지해 Stateless 검증 성능은 살리는 동시에, 로그아웃 차단 처리가 발생하면 Access Token의 잔여 만료 수명만큼 Redis에 Blacklist로 강제 마킹 수납해 도난 세션의 기만적인 역이용을 통제했습니다."
+      },
+      {
+        q: "SMTP를 결합한 이메일 인증 설계의 지향점 및 아웃바운드 교정은 무엇인가요?",
+        a: "회원가입 메일 승인은 동시성이 무겁지 않아 JVM 인메모리 세션 버퍼로 이메일 검증 상태를 수명 제어하고, 비밀번호 비상 리셋 OTP는 안전이 영속 보장되어야 해 Redis TTL 세션 바인더로 구조를 분할 격리해 불필요한 캐시 자원 누수를 예방했습니다."
+      },
+      {
+        q: "이종 AI Provider Fallback 수식과 보완책은 어떻게 완성됐나요?",
+        a: "사용자 분석 측정치가 도출되고도 타사 LLM API 인증이 만료되거나 순시 통신 도절 시, 전체 아바타 분석창이 멈춰 에러가 전파되는 병목이 있었습니다. OpenAI → Gemini → Anthropic 순으로 Exception을 실시간 캐치 기전으로 묶고, 최종 정전 시 로컬 수식으로 안전한 표준 설명 리포트를 발해 전체 성공률을 안전히 보증했습니다."
+      },
+      {
+        q: "PostgreSQL JSONB 데이터 구조를 사용해 신치 계측을 수합한 배경은 무엇인가요?",
+        a: "어깨, 허리, 가슴 등 SMPL 매쉬가 축출하는 치수 형태와 추가 학습 고도화 모델에 따라 스키마가 수시로 증강될 가능성이 높았습니다. RDB의 원자성을 해치지 않으면서 동적 key-value 스펙 적재와 인덱스 조회를 안전 지원하기 위해 가변 JSONB 컬럼 구조로 계수 명세를 영속 수렴했습니다."
       }
     ]
   },
@@ -398,17 +425,229 @@ export const PROJECTS_DATA: Project[] = [
     ]
   },
   {
-    slug: "backend-lab",
-    title: "Backend Lab / Personal Project",
-    subtitle: "개인 백엔드 분산 및 성능 연구소",
-    summary: "개인 프로젝트 정보 입력 예정 (Coming Soon)",
-    period: "2025.12 ~ 진행 중",
-    teamSize: "1명 (개인 리서치)",
-    role: "Single Owner",
-    status: "coming-soon",
-    accentColor: "#64748B",
-    thumbnail: "",
-    tags: ["Spring Boot", "Redis Cluster", "PostgreSQL JSONB", "K6"],
-    links: {}
+    slug: "sniffy-the-dog",
+    title: "Sniffy The Dog",
+    subtitle: "AI 실시간 화상 마피아 게임 서비스",
+    summary:
+      "LiveKit 기반 WebRTC 영상 통화와 STOMP 기반 게임 상태 동기화를 분리하고, 브라우저에서 표정/음성 특징을 샘플링해 AI 추리 보조 문장을 제공하는 실시간 온라인 마피아 게임 서비스입니다.",
+    period: "2025.12 ~ 2026.02",
+    teamSize: "TODO_TEAM_SIZE",
+    role: "TODO_USER_ROLE",
+    status: "featured",
+    accentColor: "#FE7122",
+    thumbnail: "https://raw.githubusercontent.com/CHG1007/Portfolio/main/public/sniffy-logo.png",
+    tags: [
+      "Java 21",
+      "Spring Boot",
+      "Hexagonal Architecture",
+      "WebSocket",
+      "STOMP",
+      "LiveKit",
+      "WebRTC",
+      "React",
+      "Vite",
+      "Redis",
+      "MySQL",
+      "MongoDB",
+      "TensorFlow.js",
+      "face-api.js",
+      "Docker",
+      "Nginx"
+    ],
+    links: {
+      github: "TODO_GITHUB_URL",
+      demo: "TODO_DEMO_URL",
+      detail: "/projects/sniffy-the-dog"
+    },
+    overview: [
+      "Sniffy The Dog는 원격 환경에서도 표정, 목소리, 투표 흐름을 함께 관찰하며 마피아 게임을 진행할 수 있도록 만든 서비스입니다.",
+      "프론트엔드는 React/Vite 기반으로 방 목록, 대기실, 게임 진행, 결과 화면을 제공하고, 백엔드는 Spring Boot 멀티모듈 구조로 방 상태, 역할 배정, 투표, 밤 행동, 결과 저장을 처리합니다."
+    ],
+    problem: [
+      "원격 환경에서는 대면 마피아 게임의 표정과 목소리 단서가 부족합니다.",
+      "영상 연결과 게임 phase/timer/vote/action은 변경 주기와 실패 양상이 다릅니다. 화상 회의와 게임 이벤트를 동일 선상에서 묶을 시 에러 전파로 인해 상태 오염이 유발됩니다.",
+      "역할 배정, 낮/밤 페이즈 분기, 투표 및 밤 행동, 승리 조건을 안정적으로 전이해야 합니다.",
+      "LiveKit, WebSocket, Redis, MySQL, MongoDB, AI API 등의 외부 인프라 기술을 도메인 게임 룰과 분리할 필요가 있었습니다."
+    ],
+    myRole: [
+      "TODO_USER_ROLE_DETAIL",
+      "Backend로 참여하며 실시간 게임 상태 동기화, 헥사고날 스타일 모듈 구조, Redis 기반 방 상태 관리, LiveKit/WebSocket 연동 구조를 중심으로 학습·구현·검증했습니다."
+    ],
+    architecture: [
+       "React / Vite Frontend - SPA UI 및 Edge AI(face-api.js) 수행",
+       "Nginx - 리버스 프록시 및 정적 리소스 서빙",
+       "Spring Boot Backend - 도메인 및 게임 데이터 관리 (Hexagonal Style Multi-Module)",
+       "LiveKit Server - 화상/음성 미디어 연결 및 트랙 통제 (WebRTC)",
+       "Redis - 방 상태, 임시 게임 로그, 원자성 갱신",
+       "MySQL - 사용자, 토큰, 정형 데이터 이력",
+       "MongoDB - 상세 로그 및 개인 맞춤화 AI 분석 리포트",
+       "External AI API - 전달된 표정/음성 샘플 및 메타데이터 기반 분석 문장 제공"
+    ],
+    contributions: [
+      {
+        title: "Hexagonal Architecture",
+        description: "멀티모듈 구조에서 도메인과 인프라의 외부 의존성을 격리했습니다.",
+        details: [
+          "domain/application/adapter 모듈 분리로 관심사 분리 이행",
+          "게임, 사용자, 신고 로그 핵심 규칙을 domain에 구성하고 application은 port interface를 정의하여 어댑터를 역전 파라미터로 결합"
+        ],
+        techUsed: ["Gradle Multi-Module", "Hexagonal Architecture", "Port & Adapter"]
+      },
+      {
+         title: "Realtime Game Flow",
+         description: "LiveKit 영상 통화와 STOMP 게임 상태 동기화를 분리해 결합도를 낮추었습니다.",
+         details: [
+           "LiveKit은 useLiveKit에서 영상/음성 트랙의 subscribe만 담당하고, 방의 투표, 역할 배정, 페이즈 동기화는 WebSocket/STOMP에 책임 위임",
+           "방 전체 / 개인별 큐 / 마피아 전용 토픽 채널로 세분화해 게임 운영 이벤트 격리 도모"
+         ],
+         techUsed: ["STOMP WebSocket", "LiveKit Integration", "Topic/Queue Routing"]
+      },
+      {
+         title: "Redis Room State & Lock",
+         description: "동시다발적인 플레이어 이벤트 요청 흐름 속에서 방 전체 상태의 안전성을 보장했습니다.",
+         details: [
+           "준비, 투표, 밤 행동 등 여러 플레이어가 일제히 방 상태를 바꿀 때 경합 조건 해소를 도모",
+           "Redis의 watch/multi/exec 트랜잭션 구문을 활용한 원자적 업데이트 구성 및 동시 수정 실패 시 최대 재시도 및 방어 에러 핸들링 도입"
+         ],
+         techUsed: ["Redis Transaction (watch/multi)", "Optimistic Locking"]
+      },
+      {
+         title: "AI Assist Flow",
+         description: "거짓말 탐지가 아닌 객관점 추론을 돕는 보조 정보 생성 기능을 안정적으로 연계했습니다.",
+         details: [
+            "브라우저에서 LiveKit 트랙을 직접 샘플링 받아(face-api.js) 5초 주기의 표정/음성 feature 도출 수행",
+            "서버에는 원본 영상이 아닌 샘플 데이터와 메타데이터 프레임만 전달해 부하를 대폭 줄이고 외부 AI API 호출 시 게임 진행의 끊김을 분리 방어"
+         ],
+         techUsed: ["face-api.js", "Web Audio API", "External LLM AI"]
+      }
+    ],
+    troubleshooting: [
+       {
+          lap: "Case 01. LiveKit 미디어 연결과 게임 상태 동기화 분리",
+          problem: "영상 연결과 게임 상태 이벤트를 같은 흐름으로 처리하면 미디어 재연결 혹은 불안정이 게임 상태를 오염시킬 수 있다.",
+          solution: "LiveKit은 useLiveKit에서 track publish/subscribe 기능만 책임지게 하고, 방 상태/투표/페이즈는 STOMP WebSocket 이벤트로 완전히 분리했다.",
+          result: "미디어 연결 lifecycle과 도메인 상태 전이를 독립적으로 관리할 수 있는 구조를 구축했다.",
+          metricTodo: "TODO_METRIC - 장애 발생 시 격리 효과"
+       },
+       {
+          lap: "Case 02. Redis 방 상태 동시 수정 충돌 제어",
+          problem: "여러 플레이어가 동시에 준비, 투표, 밤 행동을 요청하여 같은 JSON 방 상태를 갱신하게 되면 정보 소실(Lost Update) 및 경합이 발생할 수 있다.",
+          solution: "Redis에 저장된 방 전체 상태를 watch/multi/exec 트랜잭션으로 제어하여 원자 갱신하며, 충돌 시 최대 재시도하고 반복 실패 시 에러로 처리하게 방어선을 구축했다.",
+          result: "동시에 발생하는 방 상태 업데이트 간의 충돌 가능성을 최소화하고 데이터 무결성을 확보했다.",
+          metricTodo: "TODO_METRIC - 동시 준비/투표 시의 동시성 방어율"
+       },
+       {
+          lap: "Case 03. 마피아 전용 정보 노출 방지",
+          problem: "마피아 전용 STOMP topic을 클라이언트가 임의로 경로를 알아내어 구독하면 역할과 밤 행동 정보가 전체 노출될 수 있다.",
+          solution: "STOMP SUBSCRIBE 단계에서 서버가 Redis 방 상태를 직접 조회하여 사용자가 해당 방 참가자인지, 마피아 역할이 맞는지를 검증하여 권한이 없는 구독을 차단했다.",
+          result: "역할 기반으로 실시간 이벤트 공개 범위를 안전하게 서버 레벨에서 제한했다.",
+          metricTodo: "TODO_METRIC"
+       },
+       {
+          lap: "Case 04. 페이즈 종료 중복 처리 오류",
+          problem: "클라이언트 타이머 기반으로 phase end 요청을 보내어 여러 사용자가 동시에 동일 phase 종료 메시지를 서버로 브로드캐스트할 수 있다.",
+          solution: "RoomSession의 endPhase 도메인 메서드에서 현재 phase 일치 여부와 기 종료 여부를 확인하고 이미 완료된 페이즈면 무시하도록 처리하여, 첫 번째 유효 요청만 수용하도록 대응했다.",
+          result: "상태 중복 전송 방지와 동일 페이즈 전이 이중 동작 현상을 방어했다.",
+          metricTodo: "TODO_METRIC"
+       },
+       {
+          lap: "Case 05. AI 분석 성능과 개인정보 표현 (오류 방지)",
+          problem: "가벼운 게임 도중 영상 원본을 백엔드에서 처리하면 서버 리소스가 급증하고, 서비스 론칭 시 원본 영상 저장에 대한 개인정보 의구심도 초래된다.",
+          solution: "백엔드가 영상을 읽지 않고, 시민 클라이언트가 스스로 표정, 미소, 무표정 등의 5초 feature만 샘플링하여 서버에 전달한 후 외부 LLM에 넘기게 하여 부하를 모면했고 거짓말 탐지보다는 추리 보조 텍스트로 보정했다.",
+          result: "안전하고 투명한 형태의 AI 보조 모델을 구축해 서비스 불안감과 코스트 부담을 해소했다.",
+          metricTodo: "TODO_METRIC"
+       }
+    ],
+    techStack: [
+      "Java 21",
+      "Spring Boot",
+      "Spring Security",
+      "Spring WebSocket",
+      "Spring Data JPA",
+      "Gradle Multi-Module",
+      "Hexagonal Architecture",
+      "React",
+      "Vite",
+      "Zustand",
+      "Redis",
+      "MySQL",
+      "MongoDB",
+      "STOMP WebSocket",
+      "LiveKit",
+      "TensorFlow.js",
+      "face-api.js",
+      "Docker Compose",
+      "Nginx"
+    ],
+    gallery: [
+       {
+         id: "sniffy-main",
+         fileName: "sniffy-main.png",
+         title: "Sniffy The Dog 플랫폼 화면",
+         description: "LiveKit 기반 영상 통화와 게임 진행 화면 등 메인 시스템입니다."
+       },
+       {
+         id: "sniffy-room-list",
+         fileName: "room-list.png",
+         title: "실시간 세션 채널링 및 대기실 화면",
+         description: "방의 생성, 공개/비공개 구분 및 초대 코드 입장을 제공하는 리스트 보드입니다."
+       },
+       {
+          id: "sniffy-vote-screen",
+          fileName: "vote-screen.png",
+          title: "다인 투표 및 최후 변론 화면",
+          description: "낮 페이즈 후 1차 투표, 동점자 및 단독 득표자 투표 흐름에 따라 변론과 찬반 투표로 연계되는 UI입니다."
+       },
+       {
+          id: "sniffy-night-action",
+          fileName: "night-action.png",
+          title: "야간 배정 직업 행동 구동 화면",
+          description: "블라인드 처리된 밤 페이즈 도중 마피아의 공격 대상 선택 흐름과 각종 특수 직업 선택지 표출 화면입니다."
+       },
+       {
+          id: "sniffy-ai",
+          fileName: "ai-analysis.png",
+          title: "시민 AI 추출 및 감정 분석 보조 화면",
+          description: "브라우저 기반 페이셜 데이터 및 음성 변화 추이를 수집하여 백엔드의 LLM으로부터 생성된 추리 보조 문장을 표출합니다."
+       },
+       {
+          id: "sniffy-arch",
+          fileName: "system-architecture.png",
+          title: "Sniffy The Dog 시스템 코어 아키텍처",
+          description: "LiveKit Media Stream 통로와 백엔드 API & STOMP 제어 계층의 분리 이력을 그립니다."
+       },
+       {
+          id: "hex-arch",
+          fileName: "hexagonal-architecture.png",
+          title: "Hexagonal Style 백엔드 모듈 아키텍처",
+          description: "데이터 소스와 웹 소켓 단을 유스케이스 어댑터로 밀어내고 가운데 게임 도메인 규칙을 보존한 헥사고날 구조 설계입니다."
+       }
+    ],
+    interviewHighlights: [
+      {
+        q: "WebRTC와 WebSocket의 역할을 어떻게 나눴는가?",
+        a: "LiveKit은 영상/음성 트랙 등 미디어의 처리를 전담하게 하였고, STOMP 기반 WebSocket은 게임 상태, 준비, 역할 배정, 투표 이벤트 등 게임의 핵심 도메인 규칙 이벤트를 분리 동기화하여 책임 범위를 명확히 나누었습니다."
+      },
+      {
+        q: "LiveKit을 사용했다면 직접 구현한 부분과 위임한 부분은 무엇인가?",
+        a: "미디어 라우터와 Signaling 처리를 담당하는 미디어 서버의 본래 복잡도는 LiveKit에 위임하였고, 대신 백엔드에서 사용자 Identity 기반 Media token 발급 규약과 권한을 통제하여 게임 참여자와 미디어 트랙 매핑을 직접 관리했습니다."
+      },
+      {
+        q: "헥사고날 아키텍처를 도입하고 포트/어댑터를 어떻게 나눴는가?",
+        a: "게임 룰과 잦은 외부 인프라 변경의 결합을 끊기 위해 도입했습니다. 도메인, 애플리케이션 계층을 격리하고 외부 LiveKit API, Redis, MySQL 등에 대한 의존성을 포트 인터페이스로 추상화한 뒤 외부 어댑터 모듈에서 기술 세부를 구현케 했습니다."
+      },
+      {
+        q: "동시 투표와 중복 요청 충돌은 어떻게 제어했는가?",
+        a: "다수의 플레이어가 무작위 이벤트로 방 상태를 바꾸어도 정합성이 유지되게끔 저장소 레벨에서 Redis 트랜잭션(watch, multi, exec)을 활용해 원자 단위 갱신을 적용했으며, 충돌 시 최대 회복 재시도를 거치도록 보완했습니다."
+      },
+      {
+        q: "마피아 전용 정보의 실시간 보안은 어떻게 처리했는가?",
+        a: "채널 구독을 클라이언트 선에서 막는 것에 그치지 않고 STOMP의 SUBSCRIBE 헤더를 인터셉트하여, 서버가 캐시의 해당 방 플레이어 역할이 마피아인지 이중으로 검증하는 방식으로 보안을 구성했습니다."
+      },
+      {
+        q: "AI 감정 분석 보조 기능의 분석은 어디에서 이루어지는가?",
+        a: "개인 정보 부담과 서버 과부하를 덜고자 백엔드는 원본 영상을 처리하지 않습니다. 대신 프론트엔드 브라우저(Edge단)에서 5초 샘플 데이터만 추출해 서버에 전송하면, 이를 활용해 추리 보조 문장을 생성해 반환하는 방식을 택했습니다."
+      }
+    ]
   }
 ];
